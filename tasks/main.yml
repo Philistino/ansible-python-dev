@@ -1,3 +1,4 @@
+# forked from https://github.com/dhellmann/ansible-python-dev
 ---
 - name: Install tools for adding PPA repositories
   become: true
@@ -70,7 +71,7 @@
   become: true
   with_nested:
     - "{{ python_dev_versions }}"
-    - [ 'wheel', 'certifi', 'pyopenssl', 'pyasn1', 'ndg-httpsclient' ]
+    - "{{ pip_packages }}"
 
 - name: Remove system package for virtualenv
   apt:
@@ -78,14 +79,3 @@
     state: absent
   become: true
 
-- name: Install Python tools
-  become: true
-  pip:
-    name: "{{ item }}"
-  with_items:
-    - pbr
-    - tox
-    - virtualenv
-    - virtualenvwrapper
-    - wheel
-    - flake8
